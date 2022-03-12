@@ -7,7 +7,7 @@ const app = express();
 const expressLayouts = require("express-ejs-layouts")
 const mongoose = require('mongoose')
 
-mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true})
+mongoose.connect('mongodb+srv://usera:DQcr3a1FR6uvxSB5@cluster0.nrggb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{useNewUrlParser:true})
 const db = mongoose.connection
 db.on('error',error => console.error(error))
 db.once('open',() => console.log('connected to mongose'))
