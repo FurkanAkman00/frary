@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 const expressLayouts = require("express-ejs-layouts")
 const mongoose = require('mongoose')
+const bp = require('body-parser')
 
 mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true})
 const db = mongoose.connection
@@ -17,10 +18,12 @@ app.set('views',__dirname + "/views")
 app.set('layout',"layouts/layout")
 app.use(expressLayouts)
 app.use(express.static('public'))
+app.use(bp.urlencoded({limit:'10mb',extended:false}))  // useless shit but body parser is needed
 
 const indexRouter = require('./routes/index')
 app.use('/',indexRouter)
 
-app.listen(process.env.PORT)
+const authorRouter = require('./routes/authors')
+app.use('/authors',authorRouter)
 
-//{useNewUrlParser:true}
+app.listen(process.env.PORT || 3000)
