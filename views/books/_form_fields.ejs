@@ -1,0 +1,43 @@
+<div>
+    <label>Title</label>
+    <input type="text" name="title" value="<%= book.title %>"> 
+    
+</div>
+
+<div>
+    <label>Author</label>
+    <select name="author">
+
+        <% authors.forEach(author =>{ %>
+
+            <%if(author.id === book.author){%>
+                <option selected label = '<%= author.name %> ' value="<%= author.id %>">   
+            <%} else { %> 
+                <option label='<%= author.name %>' value="<%= author.id %>">
+
+            <% } %>
+        <% }) %> 
+
+    </select> 
+</div>
+
+<div>
+    <label>Publish Date</label>
+    <input type="date" name="publishDate"   <%# ? is like if statement in line and : is like else statement so if null return '' else return that split thingy Savy? and we didnt do the same at indexejs because we are not saving it to the database%> 
+        value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0]%>">  <%# 2019-2-5T12:05 Thats why T%> 
+</div>
+
+<div>
+    <label>Page Count</label>
+    <input type="number" name="pageCount" value="<%= book.pageCount%>" min="1">
+</div>
+
+<div>
+    <label>Book Cover</label>
+    <input type="file" name="cover">
+</div>
+
+<div>
+    <label>Description</label>
+    <textarea name="description"> <%= book.description %> </textarea>  <%#  that book description is actually value  %> 
+</div>

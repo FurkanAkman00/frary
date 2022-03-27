@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express()
 const router = express.Router();
 const Author = require('../models/authors') //This is important i imported authors you have to
 
@@ -9,7 +8,7 @@ router.get('/',async (req,res) =>{
     let searchOptions = {}
 
     if(req.query.name != null && req.query.name !== ''){
-        searchOptions.name = new RegExp(req.query.name , 'i')  // Bunch of useless bullshit
+        searchOptions.name = req.query.name  // Bunch of useless bullshit
 
     }
 
@@ -21,7 +20,6 @@ router.get('/',async (req,res) =>{
             authors:authors})
 
     } catch (error) {
-        console.log('yelo')
         res.redirect('/')
     }
 })

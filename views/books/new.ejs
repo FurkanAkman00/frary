@@ -1,0 +1,9 @@
+<h2>New Book</h2>
+<form action="/books" method="POST" enctype="multipart/form-data"> <%# You are sending this data to /authors post router and there you can control this with req %> 
+
+    <%- include('_form_fields') %>   
+    <a href="/books">Cancel </a>
+
+    <button type = 'submit'>Submit</button>
+
+</form>
