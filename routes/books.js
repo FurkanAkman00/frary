@@ -1,20 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer')
 const path = require('path')
 const uploadPath = path.join('public','uploads/bookCovers')
 const Book = require('../models/books') 
 const Author = require('../models/authors'); //This is important i imported authors you have to
 const { error } = require('console');  // I didnt write this, its useless
-const imageMimeTypes = ['image/jpeg','image/png','image/gif']
 const fs = require('fs')
-
-const upload = multer({
-    dest: uploadPath,
-    fileFilter:  (req,file,cb) =>{
-        cb(null,imageMimeTypes.includes(file.mimetype)) // This is the way actually you just use it
-    }
-})
+const imageMimeTypse = ['image/jpeg','image/png','image/gif']
 
 // All books route
 router.get('/',async (req,res) =>{
@@ -46,7 +38,7 @@ router.get('/new',async (req,res) =>{
 
 
 // For posting
-router.post('/', upload.single('cover'), async (req,res) =>{
+router.post('/', async (req,res) =>{
     
     const fileName = req.file != null ? req.file.filename : ''
     
@@ -58,6 +50,8 @@ router.post('/', upload.single('cover'), async (req,res) =>{
         coverImage: fileName,
         title: req.body.title
     })
+
+    saveCover(book,req.body.cover)
     
     try {
         const newBook = await book.save()
@@ -70,6 +64,16 @@ router.post('/', upload.single('cover'), async (req,res) =>{
     }
 
 })
+
+function saveCover(book, coverEncoded){
+    if(coverEncoded == null) return
+    const cover = JSON.parse(coverEncoded)
+    if(cover != null && imageMimeTypse.includes(cover.mimetype)){
+        book.coverImage = new Buffer.from(cover.data,'base64')  // cover.data is actually name of the file yo uwant to upload
+        book.coverImageType = cover.type
+    }
+}
+
 
 function removeBookCover(fileName){
     fs.unlink(path.join(uploadPath,fileName),err =>{

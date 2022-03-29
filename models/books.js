@@ -29,6 +29,11 @@ const bookSchema = new mongoose.Schema({
     },
 
     coverImage: {
+        type: Buffer,
+        required: true
+    },
+
+    coverImageType: {
         type: String,
         required: true
     },
@@ -41,8 +46,9 @@ const bookSchema = new mongoose.Schema({
 })
 
 bookSchema.virtual('coverImagePath').get(function() {
-    if(this.coverImage != null){
-        return path.join('/','uploads/bookCovers',this.coverImage)
+    if(this.coverImage != null && this.coverImageType != null){
+        return `data:${this.coverImageType};charset=utf-8;base64,${
+            this.coverImage.toString('base64')}` // Take buffer object as image source we do not use path anymore with filepond its so ez
     }
 })
 
