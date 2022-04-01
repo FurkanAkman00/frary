@@ -1,0 +1,9 @@
+<h2>Edit Author</h2>
+<form action="/authors/<%= author.id %>?_method=PUT" method="POST"> <%# You are sending this data to /authors post router and there you can control this with req %> 
+
+    <%- include('_form_fields')%>   <%# Useless basically. it allows you to use theese formfields multiple times via code %>
+    <a href="/authors">Cancel </a>
+
+    <button type = 'submit'>Update</button>
+
+</form>

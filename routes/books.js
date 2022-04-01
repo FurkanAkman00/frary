@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path')
-const uploadPath = path.join('public','uploads/bookCovers')
 const Book = require('../models/books') 
 const Author = require('../models/authors'); //This is important i imported authors you have to
 const { error } = require('console');  // I didnt write this, its useless
-const fs = require('fs')
 const imageMimeTypse = ['image/jpeg','image/png','image/gif']
 
 // All books route
@@ -40,14 +37,11 @@ router.get('/new',async (req,res) =>{
 // For posting
 router.post('/', async (req,res) =>{
     
-    const fileName = req.file != null ? req.file.filename : ''
-    
     const book = new Book({
         author: req.body.author,
         description: req.body.description,
         pageCount: req.body.pageCount,
         publishDate: new Date(req.body.publishDate),
-        coverImage: fileName,
         title: req.body.title
     })
 
@@ -55,30 +49,23 @@ router.post('/', async (req,res) =>{
     
     try {
         const newBook = await book.save()
-        res.redirect('books')
+        console.log(book.title)
+        res.redirect('/books')
     } catch{
-        if(book.coverImage != null){
-        removeBookCover(book.coverImage) 
-        }
         renderNewPage(res,book,true)
     }
 
 })
 
 function saveCover(book, coverEncoded){
-    if(coverEncoded == null) return
+    if(coverEncoded == null) {return ''}                    // Searching image as string and Saving as buffer
     const cover = JSON.parse(coverEncoded)
-    if(cover != null && imageMimeTypse.includes(cover.mimetype)){
-        book.coverImage = new Buffer.from(cover.data,'base64')  // cover.data is actually name of the file yo uwant to upload
+    console.log(cover)
+    if(cover != null && imageMimeTypse.includes(cover.type)){
+        book.coverImage = new Buffer.from(cover.data,'base64')  // cover.data is actually name of the file you want to upload
+        console.log(cover.type)
         book.coverImageType = cover.type
     }
-}
-
-
-function removeBookCover(fileName){
-    fs.unlink(path.join(uploadPath,fileName),err =>{
-        if(err) console.error(err)
-    })
 }
 
 async function renderNewPage(res,book,hasError = false){

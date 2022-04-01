@@ -7,4 +7,7 @@
 <br>
 <% authors.forEach(author => { %>
     <div><%= author.name %> </div> 
+    <a href="/authors/<%= author.id %>">View</a> <%# for each object in mongo, mongo automatically creates id for that object %> 
+    <a href="/authors/<%= author.id %>/edit">Edit</a>
+    <%- include('../partials/deleteForm', {url: `/authors/${author.id}`}) %>   
 <% }) %> 
