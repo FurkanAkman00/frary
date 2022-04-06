@@ -10,7 +10,7 @@
 
         <% authors.forEach(author =>{ %>
 
-            <%if(author.id === book.author){%>
+            <%if(author.id === book.author){%> <%# book.author is allready an id %> 
                 <option selected label = '<%= author.name %> ' value="<%= author.id %>">   
             <%} else { %> 
                 <option label='<%= author.name %>' value="<%= author.id %>">

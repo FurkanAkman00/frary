@@ -1,0 +1,9 @@
+<h2>Edit Book</h2>
+<form action="/books/<%= book.id %>?_method=PUT" method="POST"> <%# You are sending this data to /authors post router and there you can control this with req %> 
+
+    <%- include('_form_fields') %>   
+    <a href="/books">Cancel </a>
+
+    <button type = 'submit'>Update</button>
+
+</form>
