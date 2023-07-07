@@ -19,7 +19,7 @@ app.set('views',__dirname + "/views")
 app.set('layout',"layouts/layout")
 app.use(expressLayouts)
 app.use(express.static('public'))
-app.use(bp.urlencoded({limit:'10mb',extended:false}))  // useless shit but body parser is needed
+app.use(bp.urlencoded({limit:'10mb',extended:false}))  // useless but body parser is needed
 app.use(methodOverride('_method'))
 
 const indexRouter = require('./routes/index')
